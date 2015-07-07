@@ -31,19 +31,22 @@ module DE1_Uart_test(
 		     inout [35:0] GPIO
 		     );
 
-   
-   wire 			  ready;
-   wire 			  valid;
-   wire[7:0] 			  data;
-   
-   assign valid = 1'b1;
-   assign data  = 8'h30;
+   wire 			  enq_ready, enq_valid, deq_ready, deq_valid;
+   wire[7:0] 			  enq_data, deq_data;
+ 
+   assign deq_ready = enq_ready;
+   assign enq_valid = deq_valid;
+   assign enq_data  = deq_data;
 
-   UartTx sender(.clk(CLOCK_50),
-		 .reset(~KEY[0]),
-		 .io_txd(GPIO[0]),
-		 .io_enq_ready(ready),
-		 .io_enq_valid(valid),
-		 .io_enq_bits(data));
+   BufferedUart uart(.clk(CLOCK_50),
+		     .reset(~KEY[0]),
+		     .io_txd(GPIO[0]),
+		     .io_rxd(GPIO[1]),
+		     .io_enq_ready(enq_ready),
+		     .io_enq_valid(enq_valid),
+		     .io_enq_bits(enq_data),
+		     .io_deq_ready(deq_ready),
+		     .io_deq_valid(deq_valid),
+		     .io_deq_bits(deq_data));
 
 endmodule

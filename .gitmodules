@@ -1,0 +1,3 @@
+[submodule "chisel-uart"]
+	path = chisel-uart
+	url = https://github.com/zeptometer/chisel-uart.git
